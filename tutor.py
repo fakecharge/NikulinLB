@@ -6,6 +6,8 @@ import math
 class Fern:
 
     def __init__(self):
+        self.root = Tk()
+        self.canvas = Canvas(self.root)
         self.W = None
         self.eps = None
         self.Side = None
@@ -24,26 +26,73 @@ class Fern:
         self.iter = None
         self.root2 = None
         self.canvas2 = None
+        self.initStartUI()
 
-        self.root = Tk()
+
+    def initStartUI(self):
         self.root.title("Fern")
-        self.canvas = Canvas(self.root)
         # razmetka
-
-        Label(self.root, text='Размер Экрана').grid(row=1, column=1)
-        self.W_e = Entry(self.root).grid(row=1,column=2)
-        Label(self.root, text="Глубина рекурсий").grid(row=2, column=1)
-        self.N_e = Entry(self.root).grid(row=2,column=2)
-        Label(self.root, text='Изгиб').grid(row=3, column=1)
-        self.Side_e = Entry(self.root).grid(row=3,column=2)
-        btn1 = Button(self.root, text='test', command=self.test(self.Side_e)).grid(row=4, column=1)
+        Label(self.canvas, text="Размер экрана").grid(column=0, row=0)
+        Label(self.canvas, text='Глубина рекурсий').grid(column=0, row=1)
+        Label(self.canvas, text='Направление изгиба').grid(column=0, row=2)
+        Label(self.canvas, text='fi_0').grid(column=0, row=3)
+        Label(self.canvas, text='fi_1').grid(column=0, row=4)
+        Label(self.canvas, text='fi_2').grid(column=0, row=5)
+        Label(self.canvas, text='fi_3').grid(column=0, row=6)
+        Label(self.canvas, text='eps').grid(column=0, row=7)
+        Label(self.canvas, text='k1').grid(column=0, row=8)
+        Label(self.canvas, text='k2').grid(column=0, row=9)
+        Label(self.canvas, text='m1').grid(column=0, row=10)
+        Label(self.canvas, text='m2').grid(column=0, row=11)
+        Label(self.canvas, text='m3').grid(column=0, row=12)
+        ed1_str = StringVar()
+        ed2_str = StringVar()
+        ed3_str = StringVar()
+        ed4_str = StringVar()
+        ed5_str = StringVar()
+        ed6_str = StringVar()
+        ed7_str = StringVar()
+        ed8_str = StringVar()
+        ed9_str = StringVar()
+        ed10_str = StringVar()
+        ed11_str = StringVar()
+        ed12_str = StringVar()
+        ed13_str = StringVar()
+        en = Entry(self.canvas, textvariable=ed1_str).grid(column=1, row=0)
+        Entry(self.canvas, textvariable=ed2_str).grid(column=1, row=1)
+        Entry(self.canvas, textvariable=ed3_str).grid(column=1, row=2)
+        Entry(self.canvas, textvariable=ed4_str).grid(column=1, row=3)
+        Entry(self.canvas, textvariable=ed5_str).grid(column=1, row=4)
+        Entry(self.canvas, textvariable=ed6_str).grid(column=1, row=5)
+        Entry(self.canvas, textvariable=ed7_str).grid(column=1, row=6)
+        Entry(self.canvas, textvariable=ed8_str).grid(column=1, row=7)
+        Entry(self.canvas, textvariable=ed9_str).grid(column=1, row=8)
+        Entry(self.canvas, textvariable=ed10_str).grid(column=1, row=9)
+        Entry(self.canvas, textvariable=ed11_str).grid(column=1, row=10)
+        Entry(self.canvas, textvariable=ed12_str).grid(column=1, row=11)
+        Entry(self.canvas, textvariable=ed13_str).grid(column=1, row=12)
+        self.canvas.pack()
+        #Button(self.canvas, text='Нарисовать', command=lambda: self.run(int(ed1_str.get()), int(ed2_str.get()),
+         #                                                               int(ed3_str.get()),
+          #                                                              float(ed4_str.get()),
+           #                                                             float(ed5_str.get()),
+            #                                                            float(ed6_str.get()),
+             #                                                           float(ed7_str.get()),
+              #                                                          float(ed8_str.get()),
+               #                                                         float(ed9_str.get()),
+                #                                                        float(ed10_str.get()),
+                 #                                                       float(ed11_str.get()),
+                  #                                                      float(ed12_str.get()),
+                   #                                                     float(ed13_str.get()))).grid(column=0, row=13)
+        Button(self.canvas, text='Нр', command=lambda: self.test(ed1_str.get())).grid(column=0, row=13)
+        self.canvas.pack()
         self.root.mainloop()
 
     def draw(self, x0, y0, x1, y1):
         self.canvas2.create_line(x0, y0, x1, y1)
 
-    def test(self, sl):
-        print(sl.get())
+    def test(self, sl="none"):
+        print(sl)
 
     def run(self, W, N, Side, phi0, phi1, phi2, phi3, eps, k1, k2, m1, m2, m3):
         self.W = W
