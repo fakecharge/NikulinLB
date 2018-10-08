@@ -31,7 +31,7 @@ class Fern:
     def initStartUI(self):
         self.root.title("Fern")
         # razmetka
-        Label(self.canvas, text="Размер экрана").grid(column=0, row=0)
+        Label(self.canvas, text="Размер").grid(column=0, row=0)
         Label(self.canvas, text='Глубина рекурсий').grid(column=0, row=1)
         Label(self.canvas, text='Направление изгиба').grid(column=0, row=2)
         Label(self.canvas, text='fi_0').grid(column=0, row=3)
@@ -116,17 +116,17 @@ class Fern:
                                         float(ed13_str.get()), check.get())).grid(column=0, row=14)
         Button(self.canvas,
                text='Нарисовать со случайными значениями',
-               command=lambda : self.run(random.randint(300, 800), random.randint(50, 100), random.randint(-1, 1),
-                                         random.uniform(10, 20),
-                                         random.uniform(20, 40),
-                                         random.uniform(20, 40),
-                                         random.uniform(10, 20),
+               command=lambda : self.run(random.randint(300, 800), random.randint(50, 80), random.randint(-1, 1),
+                                         random.uniform(13, 16),
+                                         random.uniform(35, 39),
+                                         random.uniform(35, 39),
+                                         random.uniform(15, 18),
                                          random.uniform(0.4, 0.6),
-                                         random.uniform(0.03, 0.05),
-                                         random.uniform(0.1, 0.3),
-                                         random.uniform(0.2, 0.4),
-                                         random.uniform(0.2, 0.4),
-                                         random.uniform(0.2, 0.4), check.get())).grid(column=1, row=14)
+                                         random.uniform(0.04, 0.05),
+                                         random.uniform(0.1, 0.2),
+                                         random.uniform(0.3, 0.4),
+                                         random.uniform(0.3, 0.4),
+                                         random.uniform(0.8, 0.9), check.get())).grid(column=1, row=14)
         self.canvas.pack()
         self.root.mainloop()
 
