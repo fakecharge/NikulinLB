@@ -177,8 +177,8 @@ class Fern:
             r3 = 0.0
         self.canvas2.create_line(x0, self.W - y0, p2x, self.W - p2y)
         self.fern(p1x, p1y, self.m1 * h, psi - side * (self.phi1 + self.phi0 + r1), (-1) * side, delta, rec - 1)
-        self.fern(p2x, p2y, self.m2 * h, psi + side * (self.phi2 + self.phi0 + r2), side, delta, rec - 1)
-        self.fern(p2x, p2y, self.m3 * h, psi - side * (self.phi3 - self.phi0 + r3), side, delta, rec - 1)
+        self.fern(p2x, p2y, self.m2 * h, psi + side * (self.phi2 + self.phi0 + r2), side, delta, rec-1)
+        self.fern(p2x, p2y, self.m3 * h, psi - side * (self.phi3 - self.phi0 + r3), side, delta, rec-1)
 
 
 fern = Fern()
