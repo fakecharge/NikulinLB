@@ -1,32 +1,115 @@
 from tkinter import *
 import random
 import math
+from numpy import *
+from numpy.linalg import norm
+
+class branch:
+    def __init__(self, side, phi, k, m):
+        self.side = side
+        self.phi = phi
+        self.k = (1-k)/5
+        self.m = m*1.5
 
 
 class Fern:
 
     def __init__(self):
+        self.listBr = list()
         self.root = Tk()
-        self.canvas = Canvas(self.root)
+        self.f1 = Frame(self.root, bd=4, bg='red', width=600, height=100)
+        self.f2 = Frame(self.root)
+        self.canvas = Canvas(self.f2, width=600, height=600)
+        Button(self.f1, text='test', command=self.clear).grid(column=0, row=0)
+        self.f1.pack()
+        self.f2.pack()
+        self.x1 = 0
+        self.x2 = 0
+        self.x3 = 300
+        self.y1 = 0
+        self.y2 = 0
+        self.y3 = 600
         self.W = None
         self.eps = None
         self.Side = None
-
+        self.key = True
         self.N = None
         self.k1 = None
-        self.k2 = None
+        self.k2 = 0.136
         self.m1 = None
         self.m2 = None
-        self.m3 = None
-        self.phi0 = None
-        self.phi1 = None
+        self.m3 = 0.849
+        self.phi0 = math.pi/300
+        self.phi1 = math.pi/200
         self.phi2 = None
         self.phi3 = None
         self.random1 = False
         self.iter = None
         self.root2 = None
         self.canvas2 = None
-        self.initStartUI()
+        self.initTest()
+        self.root.mainloop()
+
+
+    def initTest(self):
+        self.canvas.create_line(300, 600, 300, 100)
+        self.canvas.bind('<Button-1>', self.cls)
+        self.canvas.pack()
+
+    def cls(self, event):
+        if self.key:
+            self.x1 = event.x
+            self.y1 = event.y
+            self.canvas.create_oval(self.x1-3, self.y1-3, self.x1+3, self.y1+3)
+            self.key = False
+        else:
+            if event.y >= 100:
+                self.y2 = event.y
+            else:
+                self.y2 = 100
+            self.x2 = 300
+            print(self.ygol())
+            print(self.getK())
+            print(self.getSid())
+            print(self.getM())
+            self.listBr.append(branch(self.getSid(), self.ygol(), self.getK(), self.getM()))
+            self.canvas.create_line(self.x1, self.y1, self.x2, self.y2)
+            self.key = True
+
+    def ygol(self):
+        a = array([self.x1, self.y1])
+        b = array([self.x2, self.y2])
+        c = array([self.x3, self.y3])
+        f = b - a
+        e = b - c
+        abVec = norm(f)
+        bcVec = norm(e)
+        abNorm = f / abVec
+        bcNorm = e / bcVec
+        res = abNorm[0] * bcNorm[0] + abNorm[1] * bcNorm[1]
+        angle = arccos(res)
+        return angle
+
+    def clear(self):
+        for i in self.listBr:
+            print(i.side, i.k, i.phi, i.m)
+        self.run2(600, 70, self.listBr, True)
+        self.listBr = list()
+        self.canvas.pack_forget()
+        self.canvas = Canvas(self.f2, width=600, height=600)
+        self.canvas.pack()
+
+    def getM(self):
+        return math.sqrt((self.x1 - self.x2) ** 2 + (self.y1 - self.y2) ** 2) / 500
+
+    def getK(self):
+        return self.y2/500
+
+    def getSid(self):
+        if self.x1 >= 300:
+            return 1
+        else:
+            return -1
 
     def initStartUI(self):
         self.root.title("Fern")
@@ -98,7 +181,7 @@ class Fern:
         en13.grid(column=1, row=12)
         check = BooleanVar()
         Checkbutton(self.canvas, text="Случайные значение ветвей", variable=check).grid(column=1, row=13)
-        Button(self.canvas, text='Test', command=lambda : self.test(check.get())).grid(column=0, row=13)
+        Button(self.canvas, text='Test', command=lambda: self.test(check.get())).grid(column=0, row=13)
         self.canvas.pack()
         Button(self.canvas,
                text='Нарисовать',
@@ -116,17 +199,17 @@ class Fern:
                                         float(ed13_str.get()), check.get())).grid(column=0, row=14)
         Button(self.canvas,
                text='Нарисовать со случайными значениями',
-               command=lambda : self.run(random.randint(300, 800), random.randint(50, 80), random.randint(-1, 1),
-                                         random.uniform(13, 16),
-                                         random.uniform(35, 39),
-                                         random.uniform(35, 39),
-                                         random.uniform(15, 18),
-                                         random.uniform(0.4, 0.6),
-                                         random.uniform(0.04, 0.05),
-                                         random.uniform(0.1, 0.2),
-                                         random.uniform(0.3, 0.4),
-                                         random.uniform(0.3, 0.4),
-                                         random.uniform(0.8, 0.9), check.get())).grid(column=1, row=14)
+               command=lambda: self.run(random.randint(300, 800), random.randint(50, 80), random.randint(-1, 1),
+                                        random.uniform(13, 16),
+                                        random.uniform(35, 39),
+                                        random.uniform(35, 39),
+                                        random.uniform(15, 18),
+                                        random.uniform(0.4, 0.6),
+                                        random.uniform(0.04, 0.05),
+                                        random.uniform(0.1, 0.2),
+                                        random.uniform(0.3, 0.4),
+                                        random.uniform(0.3, 0.4),
+                                        random.uniform(0.8, 0.9), check.get())).grid(column=1, row=14)
         self.canvas.pack()
         self.root.mainloop()
 
@@ -140,7 +223,6 @@ class Fern:
         self.W = W
         self.eps = eps
         self.Side = Side
-
         self.N = N
         self.k1 = k1
         self.k2 = k2
@@ -152,10 +234,21 @@ class Fern:
         self.phi2 = phi2 * math.pi / 180.0
         self.phi3 = phi3 * math.pi / 180.0
         self.random1 = rnd
+        self.listBr.append(branch(-1, self.phi1, self.k1, self.m2))
         self.iter = 0
         self.root2 = Tk()
         self.canvas2 = Canvas(self.root2, width=W + 200, height=W + 200)
-        self.fern((W+200)/2.0, -200, W, 0.0, self.Side, self.eps, self.N)
+        self.fern2((W + 200) / 2.0, -200, W, 0.0, self.Side, self.eps, self.N)
+        self.canvas2.pack()
+        self.root2.mainloop()
+
+    def run2(self, W, N, listbr, rnd):
+        self.W = W
+        self.iter = 0
+        self.listBr = listbr
+        self.root2 = Tk()
+        self.canvas2 = Canvas(self.root2, width=W + 500, height=W + 500)
+        self.fern2((W+200)/2.0, -200, W, 0.0, 1, 0.5, N)
         self.canvas2.pack()
         self.root2.mainloop()
 
@@ -167,18 +260,33 @@ class Fern:
         p1y = y0 + (self.k1 * h) * math.cos(psi)
         p2x = x0 - (self.k2 * h) * math.sin(psi)
         p2y = y0 + (self.k2 * h) * math.cos(psi)
+        p3x = x0 - (0.07 * h) * math.sin(psi)
+        p3y = y0 + (0.07 * h) * math.cos(psi)
         if self.random1:
-            r1 = (random.randint(0, 2000)/100.0-10.0)*math.pi/180.0
-            r2 = (random.randint(0, 2000)/100.0-10.0)*math.pi/180.0
-            r3 = (random.randint(0, 2000)/100.0-10.0)*math.pi/180.0
+            r1 = (random.randint(0, 2000) / 100.0 - 10.0) * math.pi / 180.0
+            r2 = (random.randint(0, 2000) / 100.0 - 10.0) * math.pi / 180.0
+            r3 = (random.randint(0, 2000) / 100.0 - 10.0) * math.pi / 180.0
         else:
             r1 = 0.0
             r2 = 0.0
             r3 = 0.0
         self.canvas2.create_line(x0, self.W - y0, p2x, self.W - p2y)
         self.fern(p1x, p1y, self.m1 * h, psi - side * (self.phi1 + self.phi0 + r1), (-1) * side, delta, rec - 1)
-        self.fern(p2x, p2y, self.m2 * h, psi + side * (self.phi2 + self.phi0 + r2), side, delta, rec-1)
-        self.fern(p2x, p2y, self.m3 * h, psi - side * (self.phi3 - self.phi0 + r3), side, delta, rec-1)
+        self.fern(p3x, p3y, self.m2 * h, psi + side * (self.phi2 + self.phi0 + r2), side, delta, rec - 1)
+        self.fern(p2x, p2y, self.m3 * h, psi - side * (self.phi3 - self.phi0 + r3), side, delta, rec - 1)
 
+    def fern2(self, x0, y0, h, psi, side, delta, rec):
+        if (rec == 0) or (self.k2 * h < delta): return
+        self.iter = self.iter + 1
+        print(self.iter)
+        g_p_x = x0 + (self.k2 * h) * math.sin(psi)
+        g_p_y = y0 + (self.k2 * h) * math.cos(psi)
+        print(x0, self.W - y0, g_p_x, self.W - g_p_y)
+        self.canvas2.create_line(x0, self.W - y0, g_p_x, self.W - g_p_y)
+        for i in self.listBr:
+            x = x0 + (i.k*h) * math.sin(psi)
+            y = y0 + (i.k*h) * math.cos(psi)
+            self.fern2(x, y, h*i.m, psi - i.side*(i.phi) - math.pi*i.side, i.side, delta, rec - 1)
+        self.fern2(g_p_x, g_p_y, self.m3*h, psi - side * (self.phi0+self.phi1), side, delta, rec - 1)
 
 fern = Fern()

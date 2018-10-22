@@ -58,7 +58,7 @@ class test:
             self.listBranch.append(branch(self.getSid(), self.ygol(), self.getK(), self.getM()))
             self.canvas.create_line(self.x1, self.y1, self.x2, self.y2)
             self.key = True
-
+aaaaaaa
     def ygol(self):
         a = array([self.x1, self.y1])
         b = array([self.x2, self.y2])
@@ -70,8 +70,8 @@ class test:
         abNorm = f / abVec
         bcNorm = e / bcVec
         res = abNorm[0] * bcNorm[0] + abNorm[1] * bcNorm[1]
-        angle = arccos(res) * 180.0 / pi
-        return arccos(res)
+        angle = arccos(res)
+        return angle
 
     def clear(self):
         for i in self.listBranch:
@@ -92,9 +92,9 @@ class test:
         canvas.create_line(x0, 600, 300, 100)
         for i in self.listBranch:
             x1 = x0
-            y1 = 500 * i.k - y0
-            px = x1 + ((i.m*N) * math.sin(i.phi*i.side))
-            py = y1 + ((i.m*N) * math.cos(i.phi*i.side))
+            y1 = 500 * i.m
+            px = x1 + ((i.k*N) * math.sin(i.phi))
+            py = y1 + ((i.k*N) * math.cos(i.phi))
             canvas.create_line( x1, y1, px, py)
         canvas.pack()
 
@@ -111,5 +111,5 @@ class test:
             return -1
 
 
-
+print("math pi = ", math.pi/2)
 test()
