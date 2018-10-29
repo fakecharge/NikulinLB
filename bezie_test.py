@@ -3,6 +3,7 @@ from geomdl import utilities
 from geomdl import Multi
 from geomdl.visualization import VisMPL
 from tkinter import *
+import tutor
 import math
 
 
@@ -48,8 +49,8 @@ def run(N, weight):
 
 
 def initUi():
-    root = Tk()
-    canvas = Canvas(root)
+    root3 = Tk()
+    canvas = Canvas(root3)
     Label(canvas, text='Количество точек: ').grid(column=0, row=0)
     count = StringVar()
     wights = StringVar()
@@ -62,7 +63,8 @@ def initUi():
     env2.grid(column=1,row=1)
     Button(canvas, text='Нарисовать', command=lambda : run(int(count.get()), float(wights.get()))).grid(columnspan=2, row=2)
     canvas.pack()
-    root.mainloop()
+    root3.mainloop()
 
+if __name__ =='__main__':
+    initUi()
 
-initUi()

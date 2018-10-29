@@ -4,13 +4,14 @@ import math
 from numpy import *
 from numpy.linalg import norm
 
+
 class branch:
     def __init__(self, side, phi, k, m, inverse):
         self.reverse = True
         self.side = side
         self.phi = math.pi - phi
         self.k = k
-        self.m = m*1.2
+        self.m = m * 1.2
         self.inverse = inverse
 
 
@@ -47,8 +48,8 @@ class Fern:
         self.m1 = None
         self.m2 = None
         self.m3 = 0.849
-        self.phi0 = math.pi/300
-        self.phi1 = math.pi/200
+        self.phi0 = math.pi / 300
+        self.phi1 = math.pi / 200
         self.phi2 = None
         self.phi3 = None
         self.random1 = False
@@ -59,24 +60,22 @@ class Fern:
         self.initTest()
         self.root.mainloop()
 
-
     def initTest(self):
         self.canvas.create_line(300, 600, 300, 200)
-        self.canvas.create_line(0,500, 600, 500)
+        self.canvas.create_line(0, 500, 600, 500)
         self.canvas.bind('<Button-1>', self.cls)
         self.canvas.pack()
-
 
     def cls2(self, event):
         if self.key:
             self.x1 = event.x
             self.y1 = event.y
-            self.canvas.create_oval(self.x1 - 3, self.y1-3, self.x1+3, self.y1+3)
+            self.canvas.create_oval(self.x1 - 3, self.y1 - 3, self.x1 + 3, self.y1 + 3)
             self.key = False
         else:
             self.y2 = event.y
             self.x2 = event.x
-            if math.sqrt((self.x1 - 300) ** 2) >= math.sqrt((self.x2-300) ** 2):
+            if math.sqrt((self.x1 - 300) ** 2) >= math.sqrt((self.x2 - 300) ** 2):
                 self.x2 = 300
                 if self.y2 < 200:
                     self.y2 = 200
@@ -90,13 +89,11 @@ class Fern:
                 self.canvas.create_line(self.x1, self.y1, self.x2, self.y2)
                 self.key = True
 
-
-
     def cls(self, event):
         if self.key:
             self.x1 = event.x
             self.y1 = event.y
-            self.canvas.create_oval(self.x1-3, self.y1-3, self.x1+3, self.y1+3)
+            self.canvas.create_oval(self.x1 - 3, self.y1 - 3, self.x1 + 3, self.y1 + 3)
             self.key = False
         else:
             if event.y >= 200:
@@ -117,8 +114,8 @@ class Fern:
     def ygol(self):
         a = array([self.x1, self.y1])
         b = array([self.x2, self.y2])
-        if self.y3 == 600 :
-            c = array([self.x3, self.y3+100])
+        if self.y3 == 600:
+            c = array([self.x3, self.y3 + 100])
         f = b - a
         e = b - c
         abVec = norm(f)
@@ -142,11 +139,12 @@ class Fern:
         return math.sqrt((self.x1 - self.x2) ** 2 + (self.y1 - self.y2) ** 2) / 400
 
     def getK(self):
-        k = math.sqrt((self.y2-600)**2)/400.0
+        k = math.sqrt((self.y2 - 600) ** 2) / 400.0
         if k > 0:
             return k
         else:
             return 0.001
+
     def getSid(self):
         if self.x1 >= 300:
             return 1
@@ -297,7 +295,7 @@ class Fern:
         self.listBr = listbr
         self.root2 = Tk()
         self.canvas2 = Canvas(self.root2, width=W + 500, height=W + 500)
-        self.fern2((W)/2.0, 0.0, W/2.0 ,2* math.pi, 1, 0.5, int(self.ed2_str.get()))
+        self.fern2((W) / 2.0, 0.0, W / 2.0, 2 * math.pi, 1, 0.5, int(self.ed2_str.get()))
         self.canvas2.pack()
         self.root2.mainloop()
 
@@ -328,14 +326,18 @@ class Fern:
         if (rec == 0) or (self.k2 * h < delta): return
         self.iter = self.iter + 1
         print(self.iter)
-        g_p_x = x0 + (h*self.k2) * math.sin(psi)
-        g_p_y = y0 + (h*self.k2) * math.cos(psi * -1)
+        g_p_x = x0 + (h * self.k2) * math.sin(psi)
+        g_p_y = y0 + (h * self.k2) * math.cos(psi * -1)
         print(x0, y0, g_p_x, g_p_y)
-        self.canvas2.create_line(x0+200, self.W - y0 + 200, g_p_x+200, self.W - g_p_y + 200)
+        self.canvas2.create_line(x0 + 200, self.W - y0 + 200, g_p_x + 200, self.W - g_p_y + 200)
         for i in self.listBr:
-            x = x0 + (i.k*h) * math.sin(psi)
-            y = y0 + (i.k*h) * math.cos(psi)
-            self.fern2(x, y, h*i.m, psi + i.side*(i.phi), i.side, delta, rec - 1)
-        #self.fern2(g_p_x, g_p_y, self.m3*h, psi - side * (self.phi0+self.phi1), side, delta, rec - 1)
+            x = x0 + (i.k * h) * math.sin(psi)
+            y = y0 + (i.k * h) * math.cos(psi)
+            self.fern2(x, y, h * i.m, psi + i.side * (i.phi), i.side, delta, rec - 1)
+        # self.fern2(g_p_x, g_p_y, self.m3*h, psi - side * (self.phi0+self.phi1), side, delta, rec - 1)
 
-fern = Fern()
+def start():
+    fern = Fern()
+
+if __name__ == '__main__':
+    fern = Fern()
