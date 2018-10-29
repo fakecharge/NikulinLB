@@ -2,6 +2,7 @@ from geomdl import NURBS
 from geomdl import utilities
 from geomdl import Multi
 from geomdl.visualization import VisMPL
+from tkinter import *
 import math
 
 
@@ -31,11 +32,11 @@ def create_bezie_curve(p0, p1, p2, w):
     return curve
 
 
-def run(N):
+def run(N, weight):
     N = N
     circle = create_curve(N)
     print(circle)
-    weight = math.cos(math.pi / N)
+    weight = math.cos(math.pi / N + weight)
     cv = Multi.MultiCurve()
     k = 0
     while k < len(circle) - 1:
@@ -46,4 +47,22 @@ def run(N):
     cv.render()
 
 
-run(3)
+def initUi():
+    root = Tk()
+    canvas = Canvas(root)
+    Label(canvas, text='Количество точек: ').grid(column=0, row=0)
+    count = StringVar()
+    wights = StringVar()
+    env = Entry(canvas, textvariable=count)
+    env.insert(0, '3')
+    env.grid(column=1, row=0)
+    Label(canvas, text='Дополнительные веса: ').grid(column=0, row=1)
+    env2 = Entry(canvas, textvariable=wights)
+    env2.insert(0, '0.0')
+    env2.grid(column=1,row=1)
+    Button(canvas, text='Нарисовать', command=lambda : run(int(count.get()), float(wights.get()))).grid(columnspan=2, row=2)
+    canvas.pack()
+    root.mainloop()
+
+
+initUi()
