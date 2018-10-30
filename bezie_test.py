@@ -37,7 +37,7 @@ def run(N, weight):
     N = N
     circle = create_curve(N)
     print(circle)
-    weight = math.cos(math.pi / N + weight)
+    weight = math.cos(math.pi / N ) + weight
     cv = Multi.MultiCurve()
     k = 0
     while k < len(circle) - 1:

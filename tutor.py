@@ -62,7 +62,7 @@ class Fern:
 
     def initTest(self):
         self.canvas.create_line(300, 600, 300, 200)
-        self.canvas.create_line(0, 500, 600, 500)
+        #self.canvas.create_line(0, 500, 600, 500)
         self.canvas.bind('<Button-1>', self.cls)
         self.canvas.pack()
 
@@ -335,9 +335,6 @@ class Fern:
             y = y0 + (i.k * h) * math.cos(psi)
             self.fern2(x, y, h * i.m, psi + i.side * (i.phi), i.side, delta, rec - 1)
         # self.fern2(g_p_x, g_p_y, self.m3*h, psi - side * (self.phi0+self.phi1), side, delta, rec - 1)
-
-def start():
-    fern = Fern()
 
 if __name__ == '__main__':
     fern = Fern()
