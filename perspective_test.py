@@ -1,7 +1,7 @@
-import cv2 as cv
 from matplotlib import pyplot as plt
 import numpy as np
 from tkinter import *
+import cv2 as cv
 
 
 class perspectiv:
@@ -18,9 +18,7 @@ class perspectiv:
 
     def result(self, pts):
         img = cv.imread('test.png')
-
         rows, cols, ch = img.shape
-
         pts1 = np.float32([[0, 0], [0, 300], [300, 300], [300, 0]])
         pts2 = np.float32(pts)
         M = cv.getPerspectiveTransform(pts1, pts2)
@@ -32,36 +30,35 @@ class perspectiv:
     def initUi(self):
         self.root = Tk()
         self.fr1 = Frame(self.root)
-        self.fr3 = Frame(self.root)
-        self.canvas3 = Canvas(self.fr3, width=400, height=400)
-        self.canvas3.create_text(50, 30, text="0,0")
-        self.canvas3.create_text(350, 360, text='300,300')
-        self.canvas3.create_rectangle(50, 50, 350, 350)
-        self.canvas3.create_oval(45,45,55,55 ,outline='red',
-    fill='red')
-        self.canvas3.create_oval(45, 345, 55, 355, outline='red',
-                                 fill='red')
-        self.canvas3.create_oval(345, 45, 355, 55, outline='red',
-                                 fill='red')
-        self.canvas3.create_oval(345, 345, 355, 355, outline='red',
-                                 fill='red')
-        self.canvas3.create_text(200, 200, text="IMAGE")
-        self.canvas3.create_text(60,60, text='1', fill='red')
-        self.canvas3.create_text(60,340, text='2', fill='red')
-        self.canvas3.create_text(340,340, text='3', fill='red')
-        self.canvas3.create_text(340,60, text='4', fill='red')
         Label(self.fr1, text="Задайте 4 точки для создания перспективы(1, 2, 3, 4):").grid(column=0, row=0)
         Button(self.fr1, text="print list", command=lambda: self.print()).grid(column=1, row=0)
         self.fr2 = Frame(self.root)
-        self.canvas = Canvas(self.fr2, width=400, height=400)
+        self.canvas = Canvas(self.fr2, width=800, height=400)
         self.canvas.create_text(50, 30, text="0,0")
         self.canvas.create_text(350, 360, text='300,300')
         self.canvas.bind('<Button-1>', self.cls)
         self.canvas.create_rectangle(50, 50, 350, 350)
+
+        self.canvas.create_text(450, 30, text="0,0")
+        self.canvas.create_text(750, 360, text='300,300')
+        self.canvas.create_rectangle(450, 50, 750, 350)
+        self.canvas.create_oval(445, 45, 455, 55, outline='red',
+                                 fill='red')
+        self.canvas.create_oval(445, 345, 455, 355, outline='red',
+                                 fill='red')
+        self.canvas.create_oval(745, 45, 755, 55, outline='red',
+                                 fill='red')
+        self.canvas.create_oval(745, 345, 755, 355, outline='red',
+                                 fill='red')
+        self.canvas.create_text(600, 200, text="IMAGE")
+        self.canvas.create_text(460, 60, text='1', fill='red')
+        self.canvas.create_text(460, 340, text='2', fill='red')
+        self.canvas.create_text(740, 340, text='3', fill='red')
+        self.canvas.create_text(740, 60, text='4', fill='red')
+        self.canvas.create_text(200,30, text='INPUT')
+        self.canvas.create_text(600,30, text='EXAMPLE')
         self.canvas.pack()
-        self.canvas3.pack()
         self.fr1.pack()
-        self.fr3.pack()
         self.fr2.pack()
         self.root.mainloop()
 
@@ -69,9 +66,27 @@ class perspectiv:
         pts = self.pts2
         self.pts2 = []
         self.canvas.pack_forget()
-        self.canvas = Canvas(self.fr2, width=400, height=400)
+        self.canvas = Canvas(self.fr2, width=800, height=400)
+        self.canvas.create_text(450, 30, text="0,0")
+        self.canvas.create_text(750, 360, text='300,300')
+        self.canvas.create_rectangle(450, 50, 750, 350)
+        self.canvas.create_oval(445, 45, 455, 55, outline='red',
+                                fill='red')
+        self.canvas.create_oval(445, 345, 455, 355, outline='red',
+                                fill='red')
+        self.canvas.create_oval(745, 45, 755, 55, outline='red',
+                                fill='red')
+        self.canvas.create_oval(745, 345, 755, 355, outline='red',
+                                fill='red')
+        self.canvas.create_text(600, 200, text="IMAGE")
+        self.canvas.create_text(460, 60, text='1', fill='red')
+        self.canvas.create_text(460, 340, text='2', fill='red')
+        self.canvas.create_text(740, 340, text='3', fill='red')
+        self.canvas.create_text(740, 60, text='4', fill='red')
         self.canvas.create_text(50, 30, text="0,0")
         self.canvas.create_text(350, 360, text='300,300')
+        self.canvas.create_text(200,30, text='INPUT')
+        self.canvas.create_text(600,30, text='EXAMPLE')
         self.canvas.bind('<Button-1>', self.cls)
         self.canvas.create_rectangle(50, 50, 350, 350)
         self.canvas.pack()
