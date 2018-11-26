@@ -1,0 +1,15 @@
+print("\n".join(( 
+"Задача 1", 
+"Минимизировать функцию z = -3x - 4y", 
+"Ожидаемый ответ: Минимальное значение функции = –68 и достигается ", 
+"в точке = (12, 8).", 
+))) 
+solver = SimplexSolver() 
+solver.add_target_variable(-3) 
+solver.add_target_variable(-4) 
+solver.add_constraint(1, 0, '>=', 10) 
+solver.add_constraint(0, 1, '>=', 5) 
+solver.add_constraint(1, 1, '<=', 20) 
+solver.add_constraint(-1, 4, '<=', 20) 
+result = solver.solve_minimize() 
+self.assertEqual(result, ([12.0, 8.0], -68.0))
