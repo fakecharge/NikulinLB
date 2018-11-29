@@ -329,12 +329,19 @@ class Fern:
         g_p_x = x0 + (h * self.k2) * math.sin(psi)
         g_p_y = y0 + (h * self.k2) * math.cos(psi * -1)
         print(x0, y0, g_p_x, g_p_y)
-        self.canvas2.create_line(x0 + 200, self.W - y0 + 200, g_p_x + 200, self.W - g_p_y + 200)
+        #self.canvas2.create_line(x0 + 200, self.W - y0 + 200, g_p_x + 200, self.W - g_p_y + 200)
+        self.printline(x0 + 200, self.W - y0 + 200, g_p_x + 200, self.W - g_p_y + 200)
         for i in self.listBr:
             x = x0 + (i.k * h) * math.sin(psi)
             y = y0 + (i.k * h) * math.cos(psi)
             self.fern2(x, y, h * i.m, psi + i.side * (i.phi), i.side, delta, rec - 1)
         # self.fern2(g_p_x, g_p_y, self.m3*h, psi - side * (self.phi0+self.phi1), side, delta, rec - 1)
+
+    def printline(self, x0, y0, x1, y1):
+        if self.iter < 2:
+            self.canvas2.create_line(x0,y0,x1,y1, width=10, fill="#f00")
+        elif self.iter < 1000:
+            self.canvas2.create_line(x0,y0,x1,y1, width=8, fill="#c00")
 
 if __name__ == '__main__':
     fern = Fern()
